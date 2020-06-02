@@ -67,4 +67,48 @@ class TextWrapTest extends TestCase {
     $this->assertCount(6, $ret);
   }
 
+  /**
+   * Testa a quebra de linha quando uma palavra é maior que a quantidade máxima de caracteres na linha
+   *
+   * @covers Galoa\ExerciciosPhp\TextWrap\Resolucao::textWrap
+   */
+  public function testForBigWords() {
+    $ret = $this->resolucao->textWrap($this->baseString, 5);
+    $this->assertEquals("Se vi", $ret[0]);
+    $this->assertEquals("mais", $ret[1]);
+    $this->assertEquals("longe", $ret[2]);
+    $this->assertEquals("foi", $ret[3]);
+    $this->assertEquals("por", $ret[4]);
+    $this->assertEquals("estar", $ret[5]);
+    $this->assertEquals("de", $ret[6]);
+    $this->assertEquals("pé", $ret[7]);
+    $this->assertEquals("sobre", $ret[8]);
+    $this->assertEquals("ombro", $ret[9]);
+    $this->assertEquals("s de", $ret[10]);
+    $this->assertEquals("gigan", $ret[11]);
+    $this->assertEquals("tes", $ret[12]);
+    $this->assertCount(13, $ret);
+  }
+
+  /**
+   * Checa o retorno para $length maior que o tamanho total da string.
+   *
+   * @covers Galoa\ExerciciosPhp\TextWrap\Resolucao::textWrap
+   */
+  public function testForBigLength() {
+    $ret = $this->resolucao->textWrap($this->baseString, 100);
+    $this->assertEquals("Se vi mais longe foi por estar de pé sobre ombros de gigantes", $ret[0]);
+    $this->assertCount(1, $ret);
+  }
+
+  /**
+   * Checa retorno para $lenght negativo.
+   *
+   * @covers Galoa\ExerciciosPhp\TextWrap\Resolucao::textWrap
+   */
+  public function testForNegativeLength() {
+    $ret = $this->resolucao->textWrap($this->baseString, -5);
+    $this->assertCount(0, $ret);
+  }
+
 }
